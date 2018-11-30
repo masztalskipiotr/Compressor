@@ -62,13 +62,15 @@ public:
 private:
 	AudioProcessorValueTreeState parameters;
 
-	float* ratio;
-	float* threshold;
+	float ratio;
+	float threshold;
 	float thresholdLinear;
 	float* attack;
 	float* release;
 	float* makeUpGain;
 	float* compression;
+	float autoMakeUpGain;
+	float* mugSelector;
 
 	float cAT;
 	float cRT;

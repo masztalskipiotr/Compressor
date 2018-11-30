@@ -14,22 +14,30 @@
 //==============================================================================
 CompressorAudioProcessorEditor::CompressorAudioProcessorEditor(CompressorAudioProcessor& p)
 	: AudioProcessorEditor(&p), processor(p),
-	thresholdSliderAttachment(processor.getParametersVTS(), "threshold", thresholdSlider),
-	ratioSliderAttachment(processor.getParametersVTS(), "ratio", ratioSlider),
+	//thresholdSliderAttachment(processor.getParametersVTS(), "threshold", thresholdSlider),
+	//ratioSliderAttachment(processor.getParametersVTS(), "ratio", ratioSlider),
 	attackSliderAttachment(processor.getParametersVTS(), "attack", attackSlider),
 	releaseSliderAttachment(processor.getParametersVTS(), "release", releaseSlider),
 	makeUpGainSliderAttachment(processor.getParametersVTS(), "mug", makeUpGainSlider),
-	compressionSliderAttachment(processor.getParametersVTS(), "compression", makeUpGainSlider)
+	compressionSliderAttachment(processor.getParametersVTS(), "compression", compressionSlider),
+	makeUpGainSelectorButtonAttachment(processor.getParametersVTS(), "mugselector", makeUpGainSelectorButton)
 {
 	// Make sure that before the constructor has finished, you've set the
 	// editor's size to whatever you need it to be.
 	setSize(500, 500);
 
-	thresholdSlider.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+	makeUpGainSelectorButton.setButtonText("AUTO");
+	makeUpGainSelectorButton.setClickingTogglesState(true);
+	makeUpGainSelectorButton.setColour(TextButton::buttonOnColourId, compressionSlider.findColour(Slider::thumbColourId));
+
+
+
+	/*thresholdSlider.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
 	thresholdSlider.setTextBoxStyle(Slider::TextBoxAbove, false, 65, 20);
 	thresholdSlider.setTextValueSuffix(" dB");
 	thresholdSlider.getLookAndFeel().setColour(Slider::textBoxOutlineColourId,
 		getLookAndFeel().findColour(ResizableWindow::backgroundColourId));
+	
 
 	thresholdSliderLabel.setText("THRESHOLD", dontSendNotification);
 	thresholdSliderLabel.attachToComponent(&thresholdSlider, false);
@@ -47,7 +55,7 @@ CompressorAudioProcessorEditor::CompressorAudioProcessorEditor(CompressorAudioPr
 	ratioSliderLabel.setText("RATIO", dontSendNotification);
 	ratioSliderLabel.attachToComponent(&ratioSlider, false);
 	ratioSliderLabel.setJustificationType(Justification::centredTop);
-	ratioSliderLabel.setFont(Font("Bahnschrift", "Light", 16));
+	ratioSliderLabel.setFont(Font("Bahnschrift", "Light", 16));*/
 
 
 
@@ -92,9 +100,10 @@ CompressorAudioProcessorEditor::CompressorAudioProcessorEditor(CompressorAudioPr
 
 	compressionSlider.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
 	compressionSlider.setTextBoxStyle(Slider::TextBoxAbove, false, 65, 20);
-	//compressionSlider.setTextValueSuffix(" dB");
+	compressionSlider.setTextValueSuffix("");
 	compressionSlider.getLookAndFeel().setColour(Slider::textBoxOutlineColourId,
 		getLookAndFeel().findColour(ResizableWindow::backgroundColourId));
+	
 
 	compressionSliderLabel.setText("COMPRESSION", dontSendNotification);
 	compressionSliderLabel.attachToComponent(&compressionSlider, false);
@@ -103,15 +112,16 @@ CompressorAudioProcessorEditor::CompressorAudioProcessorEditor(CompressorAudioPr
 
 
 
-	addAndMakeVisible(thresholdSlider);
-	addAndMakeVisible(ratioSlider);
+	//addAndMakeVisible(thresholdSlider);
+	//addAndMakeVisible(ratioSlider);
 	addAndMakeVisible(attackSlider);
 	addAndMakeVisible(releaseSlider);
 	addAndMakeVisible(makeUpGainSlider);
 	addAndMakeVisible(compressionSlider);
+	addAndMakeVisible(makeUpGainSelectorButton);
 
-	addAndMakeVisible(thresholdSliderLabel);
-	addAndMakeVisible(ratioSliderLabel);
+	//addAndMakeVisible(thresholdSliderLabel);
+	//addAndMakeVisible(ratioSliderLabel);
 	addAndMakeVisible(attackSliderLabel);
 	addAndMakeVisible(releaseSliderLabel);
 	addAndMakeVisible(makeUpGainSliderLabel);
@@ -135,10 +145,15 @@ void CompressorAudioProcessorEditor::resized()
 {
 	// This is generally where you'll want to lay out the positions of any
 	// subcomponents in your editor..
-	thresholdSlider.setBounds(0, 30, 200, 120);
-	ratioSlider.setBounds(200, 30, 200, 120);
-	attackSlider.setBounds(0, 180, 200, 120);
-	releaseSlider.setBounds(200, 180, 200, 120);
+	attackSlider.setBounds(0, 30, 200, 120);
+	releaseSlider.setBounds(200, 30, 200, 120);
+	//attackSlider.setBounds(0, 180, 200, 120);
+	//releaseSlider.setBounds(200, 180, 200, 120);
 	makeUpGainSlider.setBounds(400, 100, 70, 70);
-	compressionSlider.setBounds(150, 330, 200, 120);
+	compressionSlider.setBounds(0, 180, 400, 300);
+	makeUpGainSelectorButton.setBounds(420, 400, 50, 30);
+
+	if (*processor.getParametersVTS().getRawParameterValue("mugselector") < 1) {
+		makeUpGainSlider.setEnabled(false);
+	}
 }
