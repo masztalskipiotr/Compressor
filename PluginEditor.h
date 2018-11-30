@@ -36,18 +36,21 @@ private:
 	Slider attackSlider;
 	Slider releaseSlider;
 	Slider makeUpGainSlider;
+	Slider compressionSlider;
 
 	Label thresholdSliderLabel;
 	Label ratioSliderLabel;
 	Label attackSliderLabel;
 	Label releaseSliderLabel;
 	Label makeUpGainSliderLabel;
+	Label compressionSliderLabel;
 
 	AudioProcessorValueTreeState::SliderAttachment thresholdSliderAttachment;
 	AudioProcessorValueTreeState::SliderAttachment ratioSliderAttachment;
 	AudioProcessorValueTreeState::SliderAttachment attackSliderAttachment;
 	AudioProcessorValueTreeState::SliderAttachment releaseSliderAttachment;
 	AudioProcessorValueTreeState::SliderAttachment makeUpGainSliderAttachment;
+	AudioProcessorValueTreeState::SliderAttachment compressionSliderAttachment;
 
 
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CompressorAudioProcessorEditor)

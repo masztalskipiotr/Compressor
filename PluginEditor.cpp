@@ -18,11 +18,12 @@ CompressorAudioProcessorEditor::CompressorAudioProcessorEditor(CompressorAudioPr
 	ratioSliderAttachment(processor.getParametersVTS(), "ratio", ratioSlider),
 	attackSliderAttachment(processor.getParametersVTS(), "attack", attackSlider),
 	releaseSliderAttachment(processor.getParametersVTS(), "release", releaseSlider),
-	makeUpGainSliderAttachment(processor.getParametersVTS(), "mug", makeUpGainSlider)
+	makeUpGainSliderAttachment(processor.getParametersVTS(), "mug", makeUpGainSlider),
+	compressionSliderAttachment(processor.getParametersVTS(), "compression", makeUpGainSlider)
 {
 	// Make sure that before the constructor has finished, you've set the
 	// editor's size to whatever you need it to be.
-	setSize(500, 300);
+	setSize(500, 500);
 
 	thresholdSlider.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
 	thresholdSlider.setTextBoxStyle(Slider::TextBoxAbove, false, 65, 20);
@@ -89,17 +90,32 @@ CompressorAudioProcessorEditor::CompressorAudioProcessorEditor(CompressorAudioPr
 
 
 
+	compressionSlider.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+	compressionSlider.setTextBoxStyle(Slider::TextBoxAbove, false, 65, 20);
+	//compressionSlider.setTextValueSuffix(" dB");
+	compressionSlider.getLookAndFeel().setColour(Slider::textBoxOutlineColourId,
+		getLookAndFeel().findColour(ResizableWindow::backgroundColourId));
+
+	compressionSliderLabel.setText("COMPRESSION", dontSendNotification);
+	compressionSliderLabel.attachToComponent(&compressionSlider, false);
+	compressionSliderLabel.setJustificationType(Justification::centredTop);
+	compressionSliderLabel.setFont(Font("Bahnschrift", "Light", 16));
+
+
+
 	addAndMakeVisible(thresholdSlider);
 	addAndMakeVisible(ratioSlider);
 	addAndMakeVisible(attackSlider);
 	addAndMakeVisible(releaseSlider);
 	addAndMakeVisible(makeUpGainSlider);
+	addAndMakeVisible(compressionSlider);
 
 	addAndMakeVisible(thresholdSliderLabel);
 	addAndMakeVisible(ratioSliderLabel);
 	addAndMakeVisible(attackSliderLabel);
 	addAndMakeVisible(releaseSliderLabel);
 	addAndMakeVisible(makeUpGainSliderLabel);
+	addAndMakeVisible(compressionSliderLabel);
 
 
 }
@@ -124,4 +140,5 @@ void CompressorAudioProcessorEditor::resized()
 	attackSlider.setBounds(0, 180, 200, 120);
 	releaseSlider.setBounds(200, 180, 200, 120);
 	makeUpGainSlider.setBounds(400, 100, 70, 70);
+	compressionSlider.setBounds(150, 330, 200, 120);
 }

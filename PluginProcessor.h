@@ -68,6 +68,7 @@ private:
 	float* attack;
 	float* release;
 	float* makeUpGain;
+	float* compression;
 
 	float cAT;
 	float cRT;

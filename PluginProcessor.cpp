@@ -30,17 +30,20 @@ CompressorAudioProcessor::CompressorAudioProcessor()
 	NormalisableRange<float> attackRange(0.1f, 20.0f, 0.1f);
 	NormalisableRange<float> releaseRange(10.0f, 1000.0f, 10.0f);
 	NormalisableRange<float> makeUpGainRange(0.f, 20.f, .1f);
+	NormalisableRange<float> compressionRange(0.f, 1.f, .01f);
 	parameters.createAndAddParameter("threshold", "Threshold", " dB", thresholdRange, 0.0f, nullptr, nullptr);
 	parameters.createAndAddParameter("ratio", "Ratio", ":1", ratioRange, 2.0f, nullptr, nullptr);
 	parameters.createAndAddParameter("attack", "Attack", " ms", attackRange, 1.0f, nullptr, nullptr);
 	parameters.createAndAddParameter("release", "Release", " ms", releaseRange, 100.0f, nullptr, nullptr);
 	parameters.createAndAddParameter("mug", "Make Up Gain", " ms", makeUpGainRange, 0.f, nullptr, nullptr);
+	parameters.createAndAddParameter("compression", "Compression", "", compressionRange, 0.f, nullptr, nullptr);
 
 	threshold = parameters.getRawParameterValue("threshold");
 	ratio = parameters.getRawParameterValue("ratio");
 	attack = parameters.getRawParameterValue("attack");
 	release = parameters.getRawParameterValue("release");
 	makeUpGain = parameters.getRawParameterValue("mug");
+	compression = parameters.getRawParameterValue("compression");
 
 }
 
