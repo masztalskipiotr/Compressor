@@ -46,19 +46,22 @@ CompressorAudioProcessor::CompressorAudioProcessor()
 	//threshold = parameters.getRawParameterValue("threshold");
 	threshold = *parameters.getRawParameterValue("compression") * -50.f;
 	//ratio = parameters.getRawParameterValue("ratio");
-	ratio = 2.f + (*parameters.getRawParameterValue("compression") * 5.f);
 	//attack = parameters.getRawParameterValue("attack");
 	if (*parameters.getRawParameterValue("compmode") == 0.f) {
 		attack = 5.f;
 		release = 50.f;
+		ratio = 2.f + (*parameters.getRawParameterValue("compression") * 2.f);
 	}
 	else if (*parameters.getRawParameterValue("compmode") == 1.f) {
-		attack = 20.f;
+		attack = 0.1f;
 		release = 100.f;
+		ratio = 2.f + (*parameters.getRawParameterValue("compression") * 5.f);
 	}
 	else if (*parameters.getRawParameterValue("compmode") == 2.f) {
-		attack = 0.1f;
-		release = 30.f;
+		attack = 10.f;
+		release = 200.f;
+		ratio = 3.f + (*parameters.getRawParameterValue("compression") * 2.f);
+		
 	}
 	//release = parameters.getRawParameterValue("release");
 	makeUpGain = parameters.getRawParameterValue("mug");
@@ -256,12 +259,19 @@ void CompressorAudioProcessor::getStateInformation(MemoryBlock& destData)
 	// You should use this method to store your parameters in the memory block.
 	// You could do that either as raw data, or use the XML or ValueTree classes
 	// as intermediaries to make it easy to save and load complex data.
+	/*auto state = parameters.copyState();
+	std::unique_ptr<XmlElement> xml(state.createXml());
+	copyXmlToBinary(*xml, destData);*/
 }
 
 void CompressorAudioProcessor::setStateInformation(const void* data, int sizeInBytes)
 {
 	// You should use this method to restore your parameters from this memory block,
 	// whose contents will have been created by the getStateInformation() call.
+	/*std::unique_ptr<XmlElement> xmlState(getXmlFromBinary(data, sizeInBytes));
+	if (xmlState.get() != nullptr)
+		if (xmlState->hasTagName(parameters.state.getType()))
+			parameters.replaceState(ValueTree::fromXml(*xmlState));*/
 }
 
 void CompressorAudioProcessor::updateParameters()
@@ -275,14 +285,18 @@ void CompressorAudioProcessor::updateParameters()
 	if (*parameters.getRawParameterValue("compmode") == 0.f) {
 		attack = 5.f;
 		release = 50.f;
+		ratio = 2.f + (*parameters.getRawParameterValue("compression") * 2.f);
 	}
 	else if (*parameters.getRawParameterValue("compmode") == 1.f) {
-		attack = 20.f;
+		attack = 0.1f;
 		release = 100.f;
+		ratio = 2.f + (*parameters.getRawParameterValue("compression") * 5.f);
 	}
 	else if (*parameters.getRawParameterValue("compmode") == 2.f) {
-		attack = 0.1f;
-		release = 30.f;
+		attack = 10.f;
+		release = 200.f;
+		ratio = 3.f + (*parameters.getRawParameterValue("compression") * 2.f);
+
 	}
 	//release = parameters.getRawParameterValue("release");
 	makeUpGain = parameters.getRawParameterValue("mug");

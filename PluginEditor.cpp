@@ -33,6 +33,9 @@ CompressorAudioProcessorEditor::CompressorAudioProcessorEditor(CompressorAudioPr
 
 	compressionModeSelectorBox.addItem("Speech", 1);
 	compressionModeSelectorBox.addItem("Guitar", 2);
+	compressionModeSelectorBox.addSeparator();
+
+	compressionModeSelectorBox.addSectionHeading("DRUMS");
 	compressionModeSelectorBox.addItem("Snare", 3);
 	compressionModeSelectorBox.setJustificationType(Justification::centred);
 	compressionModeSelectorBox.setSelectedId(*processor.getParametersVTS().getRawParameterValue("compmode") + 1);
