@@ -32,6 +32,7 @@ CompressorAudioProcessor::CompressorAudioProcessor()
 	NormalisableRange<float> makeUpGainRange(0.f, 20.f, .1f);
 	NormalisableRange<float> compressionRange(0.f, 1.0f, 0.01f);
 	NormalisableRange<float> mugSelectorRange(0.f, 1.0f, 1.f);
+	NormalisableRange<float> compTypeRange(0.f, 2.f, 1.f);
 
 	//parameters.createAndAddParameter("threshold", "Threshold", " dB", thresholdRange, 0.0f, nullptr, nullptr);
 	//parameters.createAndAddParameter("ratio", "Ratio", ":1", ratioRange, 2.0f, nullptr, nullptr);
@@ -40,6 +41,7 @@ CompressorAudioProcessor::CompressorAudioProcessor()
 	parameters.createAndAddParameter("mug", "Make Up Gain", " ms", makeUpGainRange, 0.f, nullptr, nullptr);
 	parameters.createAndAddParameter("compression", "Compression", "", compressionRange, 0.f, nullptr, nullptr);
 	parameters.createAndAddParameter("mugselector", "MUG Selector", "", mugSelectorRange, 1.f, nullptr, nullptr);
+	parameters.createAndAddParameter("comptype", "Compression Type", "", compTypeRange, 0.f, nullptr, nullptr);
 
 	//threshold = parameters.getRawParameterValue("threshold");
 	threshold = *parameters.getRawParameterValue("compression") * -50.f;
@@ -51,6 +53,7 @@ CompressorAudioProcessor::CompressorAudioProcessor()
 	compression = parameters.getRawParameterValue("compression");
 	autoMakeUpGain = fabs(threshold * (1 - 1 / ratio));
 	mugSelector = parameters.getRawParameterValue("mugselector");
+	
 }
 
 CompressorAudioProcessor::~CompressorAudioProcessor()

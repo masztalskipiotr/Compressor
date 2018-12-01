@@ -71,6 +71,7 @@ private:
 	float* compression;
 	float autoMakeUpGain;
 	float* mugSelector;
+	float* compTypeSelector;
 
 	float cAT;
 	float cRT;

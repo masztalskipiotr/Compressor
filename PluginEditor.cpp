@@ -20,7 +20,8 @@ CompressorAudioProcessorEditor::CompressorAudioProcessorEditor(CompressorAudioPr
 	releaseSliderAttachment(processor.getParametersVTS(), "release", releaseSlider),
 	makeUpGainSliderAttachment(processor.getParametersVTS(), "mug", makeUpGainSlider),
 	compressionSliderAttachment(processor.getParametersVTS(), "compression", compressionSlider),
-	makeUpGainSelectorButtonAttachment(processor.getParametersVTS(), "mugselector", makeUpGainSelectorButton)
+	makeUpGainSelectorButtonAttachment(processor.getParametersVTS(), "mugselector", makeUpGainSelectorButton),
+	compressionTypeSelectorBoxAttachment(processor.getParametersVTS(), "comptype", compressionTypeSelectorBox)
 {
 	// Make sure that before the constructor has finished, you've set the
 	// editor's size to whatever you need it to be.
@@ -29,6 +30,11 @@ CompressorAudioProcessorEditor::CompressorAudioProcessorEditor(CompressorAudioPr
 	makeUpGainSelectorButton.setButtonText("AUTO");
 	makeUpGainSelectorButton.setClickingTogglesState(true);
 	makeUpGainSelectorButton.setColour(TextButton::buttonOnColourId, compressionSlider.findColour(Slider::thumbColourId));
+
+	compressionTypeSelectorBox.addItem("Speech", 0);
+	compressionTypeSelectorBox.addItem("Guitar", 1);
+	compressionTypeSelectorBox.addItem("Snare", 2);
+
 
 
 
@@ -119,6 +125,7 @@ CompressorAudioProcessorEditor::CompressorAudioProcessorEditor(CompressorAudioPr
 	addAndMakeVisible(makeUpGainSlider);
 	addAndMakeVisible(compressionSlider);
 	addAndMakeVisible(makeUpGainSelectorButton);
+	addAndMakeVisible(compressionTypeSelectorBox);
 
 	//addAndMakeVisible(thresholdSliderLabel);
 	//addAndMakeVisible(ratioSliderLabel);
@@ -152,8 +159,11 @@ void CompressorAudioProcessorEditor::resized()
 	makeUpGainSlider.setBounds(400, 100, 70, 70);
 	compressionSlider.setBounds(0, 180, 400, 300);
 	makeUpGainSelectorButton.setBounds(420, 400, 50, 30);
+	compressionTypeSelectorBox.setBounds(420, 300, 50, 30);
 
-	if (*processor.getParametersVTS().getRawParameterValue("mugselector") < 1) {
+	/*if (*processor.getParametersVTS().getRawParameterValue("mugselector") < 1) {
 		makeUpGainSlider.setEnabled(false);
-	}
+	}*/
+
+	
 }

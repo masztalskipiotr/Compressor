@@ -47,6 +47,8 @@ private:
 
 	TextButton makeUpGainSelectorButton;
 
+	ComboBox compressionTypeSelectorBox;
+
 	//AudioProcessorValueTreeState::SliderAttachment thresholdSliderAttachment;
 	//AudioProcessorValueTreeState::SliderAttachment ratioSliderAttachment;
 	AudioProcessorValueTreeState::SliderAttachment attackSliderAttachment;
@@ -55,6 +57,8 @@ private:
 	AudioProcessorValueTreeState::SliderAttachment compressionSliderAttachment;
 
 	AudioProcessorValueTreeState::ButtonAttachment makeUpGainSelectorButtonAttachment;
+
+	AudioProcessorValueTreeState::ComboBoxAttachment compressionTypeSelectorBoxAttachment;
 
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CompressorAudioProcessorEditor)
 };
