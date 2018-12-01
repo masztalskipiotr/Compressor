@@ -65,8 +65,8 @@ private:
 	float ratio;
 	float threshold;
 	float thresholdLinear;
-	float* attack;
-	float* release;
+	float attack;
+	float release;
 	float* makeUpGain;
 	float* compression;
 	float autoMakeUpGain;

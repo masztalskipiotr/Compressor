@@ -16,26 +16,26 @@ CompressorAudioProcessorEditor::CompressorAudioProcessorEditor(CompressorAudioPr
 	: AudioProcessorEditor(&p), processor(p),
 	//thresholdSliderAttachment(processor.getParametersVTS(), "threshold", thresholdSlider),
 	//ratioSliderAttachment(processor.getParametersVTS(), "ratio", ratioSlider),
-	attackSliderAttachment(processor.getParametersVTS(), "attack", attackSlider),
-	releaseSliderAttachment(processor.getParametersVTS(), "release", releaseSlider),
+	//attackSliderAttachment(processor.getParametersVTS(), "attack", attackSlider),
+	//releaseSliderAttachment(processor.getParametersVTS(), "release", releaseSlider),
 	makeUpGainSliderAttachment(processor.getParametersVTS(), "mug", makeUpGainSlider),
 	compressionSliderAttachment(processor.getParametersVTS(), "compression", compressionSlider),
 	makeUpGainSelectorButtonAttachment(processor.getParametersVTS(), "mugselector", makeUpGainSelectorButton),
-	compressionTypeSelectorBoxAttachment(processor.getParametersVTS(), "comptype", compressionTypeSelectorBox)
+	compressionModeSelectorBoxAttachment(processor.getParametersVTS(), "compmode", compressionModeSelectorBox)
 {
 	// Make sure that before the constructor has finished, you've set the
 	// editor's size to whatever you need it to be.
-	setSize(500, 500);
+	setSize(500, 420);
 
 	makeUpGainSelectorButton.setButtonText("AUTO");
 	makeUpGainSelectorButton.setClickingTogglesState(true);
 	makeUpGainSelectorButton.setColour(TextButton::buttonOnColourId, compressionSlider.findColour(Slider::thumbColourId));
 
-	compressionTypeSelectorBox.addItem("Speech", 0);
-	compressionTypeSelectorBox.addItem("Guitar", 1);
-	compressionTypeSelectorBox.addItem("Snare", 2);
-
-
+	compressionModeSelectorBox.addItem("Speech", 1);
+	compressionModeSelectorBox.addItem("Guitar", 2);
+	compressionModeSelectorBox.addItem("Snare", 3);
+	compressionModeSelectorBox.setJustificationType(Justification::centred);
+	compressionModeSelectorBox.setSelectedId(*processor.getParametersVTS().getRawParameterValue("compmode") + 1);
 
 
 	/*thresholdSlider.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
@@ -65,20 +65,20 @@ CompressorAudioProcessorEditor::CompressorAudioProcessorEditor(CompressorAudioPr
 
 
 
-	attackSlider.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
-	attackSlider.setTextBoxStyle(Slider::TextBoxAbove, false, 65, 20);
-	attackSlider.setTextValueSuffix(" ms");
-	attackSlider.getLookAndFeel().setColour(Slider::textBoxOutlineColourId,
-		getLookAndFeel().findColour(ResizableWindow::backgroundColourId));
+	//attackSlider.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+	//attackSlider.setTextBoxStyle(Slider::TextBoxAbove, false, 65, 20);
+	//attackSlider.setTextValueSuffix(" ms");
+	//attackSlider.getLookAndFeel().setColour(Slider::textBoxOutlineColourId,
+	//	getLookAndFeel().findColour(ResizableWindow::backgroundColourId));
 
-	attackSliderLabel.setText("ATTACK", dontSendNotification);
-	attackSliderLabel.attachToComponent(&attackSlider, false);
-	attackSliderLabel.setJustificationType(Justification::centredTop);
-	attackSliderLabel.setFont(Font("Bahnschrift", "Light", 16));
+	//attackSliderLabel.setText("ATTACK", dontSendNotification);
+	//attackSliderLabel.attachToComponent(&attackSlider, false);
+	//attackSliderLabel.setJustificationType(Justification::centredTop);
+	//attackSliderLabel.setFont(Font("Bahnschrift", "Light", 16));
 
 
 
-	releaseSlider.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+	/*releaseSlider.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
 	releaseSlider.setTextBoxStyle(Slider::TextBoxAbove, false, 65, 20);
 	releaseSlider.setTextValueSuffix(" ms");
 	releaseSlider.getLookAndFeel().setColour(Slider::textBoxOutlineColourId,
@@ -87,7 +87,7 @@ CompressorAudioProcessorEditor::CompressorAudioProcessorEditor(CompressorAudioPr
 	releaseSliderLabel.setText("RELEASE", dontSendNotification);
 	releaseSliderLabel.attachToComponent(&releaseSlider, false);
 	releaseSliderLabel.setJustificationType(Justification::centredTop);
-	releaseSliderLabel.setFont(Font("Bahnschrift", "Light", 16));
+	releaseSliderLabel.setFont(Font("Bahnschrift", "Light", 16));*/
 
 
 
@@ -120,17 +120,17 @@ CompressorAudioProcessorEditor::CompressorAudioProcessorEditor(CompressorAudioPr
 
 	//addAndMakeVisible(thresholdSlider);
 	//addAndMakeVisible(ratioSlider);
-	addAndMakeVisible(attackSlider);
-	addAndMakeVisible(releaseSlider);
+	//addAndMakeVisible(attackSlider);
+	//addAndMakeVisible(releaseSlider);
 	addAndMakeVisible(makeUpGainSlider);
 	addAndMakeVisible(compressionSlider);
 	addAndMakeVisible(makeUpGainSelectorButton);
-	addAndMakeVisible(compressionTypeSelectorBox);
+	addAndMakeVisible(compressionModeSelectorBox);
 
 	//addAndMakeVisible(thresholdSliderLabel);
 	//addAndMakeVisible(ratioSliderLabel);
-	addAndMakeVisible(attackSliderLabel);
-	addAndMakeVisible(releaseSliderLabel);
+	//addAndMakeVisible(attackSliderLabel);
+	//addAndMakeVisible(releaseSliderLabel);
 	addAndMakeVisible(makeUpGainSliderLabel);
 	addAndMakeVisible(compressionSliderLabel);
 
@@ -152,14 +152,14 @@ void CompressorAudioProcessorEditor::resized()
 {
 	// This is generally where you'll want to lay out the positions of any
 	// subcomponents in your editor..
-	attackSlider.setBounds(0, 30, 200, 120);
-	releaseSlider.setBounds(200, 30, 200, 120);
+	//attackSlider.setBounds(0, 30, 200, 120);
+	//releaseSlider.setBounds(200, 30, 200, 120);
 	//attackSlider.setBounds(0, 180, 200, 120);
 	//releaseSlider.setBounds(200, 180, 200, 120);
-	makeUpGainSlider.setBounds(400, 100, 70, 70);
-	compressionSlider.setBounds(0, 180, 400, 300);
-	makeUpGainSelectorButton.setBounds(420, 400, 50, 30);
-	compressionTypeSelectorBox.setBounds(420, 300, 50, 30);
+	makeUpGainSlider.setBounds(410, 190, 70, 90);
+	compressionSlider.setBounds(50, 80, 380, 300);
+	makeUpGainSelectorButton.setBounds(420, 315, 50, 30);
+	compressionModeSelectorBox.setBounds(20, 20, 90, 30);
 
 	/*if (*processor.getParametersVTS().getRawParameterValue("mugselector") < 1) {
 		makeUpGainSlider.setEnabled(false);
