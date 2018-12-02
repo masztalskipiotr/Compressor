@@ -16,7 +16,8 @@
 //==============================================================================
 /**
 */
-class CompressorAudioProcessorEditor : public AudioProcessorEditor
+class CompressorAudioProcessorEditor : public AudioProcessorEditor,
+									   public Button::Listener
 {
 public:
 	CompressorAudioProcessorEditor(CompressorAudioProcessor&);
@@ -25,23 +26,17 @@ public:
 	//==============================================================================
 	void paint(Graphics&) override;
 	void resized() override;
-
+	//void setSliderInvisible();
+	void buttonClicked(Button* button) override; 
+	
 private:
 	// This reference is provided as a quick way for your editor to
 	// access the processor object that created it.
 	CompressorAudioProcessor& processor;
 
-	//Slider thresholdSlider;
-	//Slider ratioSlider;
-	//Slider attackSlider;
-	//Slider releaseSlider;
 	Slider makeUpGainSlider;
 	Slider compressionSlider;
 
-	//Label thresholdSliderLabel;
-	//Label ratioSliderLabel;
-	//Label attackSliderLabel;
-	//Label releaseSliderLabel;
 	Label makeUpGainSliderLabel;
 	Label compressionSliderLabel;
 
@@ -49,10 +44,6 @@ private:
 
 	ComboBox compressionModeSelectorBox;
 
-	//AudioProcessorValueTreeState::SliderAttachment thresholdSliderAttachment;
-	//AudioProcessorValueTreeState::SliderAttachment ratioSliderAttachment;
-	//AudioProcessorValueTreeState::SliderAttachment attackSliderAttachment;
-	//AudioProcessorValueTreeState::SliderAttachment releaseSliderAttachment;
 	AudioProcessorValueTreeState::SliderAttachment makeUpGainSliderAttachment;
 	AudioProcessorValueTreeState::SliderAttachment compressionSliderAttachment;
 

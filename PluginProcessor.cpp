@@ -25,28 +25,23 @@ CompressorAudioProcessor::CompressorAudioProcessor()
 	parameters(*this, nullptr)
 #endif
 {
-	//NormalisableRange<float> thresholdRange(-56.0f, 0.0f, 0.1f);
-	//NormalisableRange<float> ratioRange(1.0f, 7.0f, 1.0f);
-	//NormalisableRange<float> attackRange(0.1f, 20.0f, 0.1f);
-	//NormalisableRange<float> releaseRange(10.0f, 1000.0f, 10.0f);
 	NormalisableRange<float> makeUpGainRange(0.f, 20.f, .1f);
 	NormalisableRange<float> compressionRange(0.f, 1.0f, 0.01f);
 	NormalisableRange<float> mugSelectorRange(0.f, 1.0f, 1.f);
 	NormalisableRange<float> compTypeRange(0.f, 2.f, 1.f);
 
-	//parameters.createAndAddParameter("threshold", "Threshold", " dB", thresholdRange, 0.0f, nullptr, nullptr);
-	//parameters.createAndAddParameter("ratio", "Ratio", ":1", ratioRange, 2.0f, nullptr, nullptr);
-	//parameters.createAndAddParameter("attack", "Attack", " ms", attackRange, 1.0f, nullptr, nullptr);
-	//parameters.createAndAddParameter("release", "Release", " ms", releaseRange, 100.0f, nullptr, nullptr);
 	parameters.createAndAddParameter("mug", "Make Up Gain", " ms", makeUpGainRange, 0.f, nullptr, nullptr);
 	parameters.createAndAddParameter("compression", "Compression", "", compressionRange, 0.f, nullptr, nullptr);
 	parameters.createAndAddParameter("mugselector", "MUG Selector", "", mugSelectorRange, 1.f, nullptr, nullptr);
 	parameters.createAndAddParameter("compmode", "Compression Mode", "", compTypeRange, 0.f, nullptr, nullptr);
 
-	//threshold = parameters.getRawParameterValue("threshold");
+	
 	threshold = *parameters.getRawParameterValue("compression") * -50.f;
-	//ratio = parameters.getRawParameterValue("ratio");
-	//attack = parameters.getRawParameterValue("attack");
+	makeUpGain = parameters.getRawParameterValue("mug");
+	compression = parameters.getRawParameterValue("compression");
+	autoMakeUpGain = fabs(threshold * (1 - 1 / ratio));
+	mugSelector = parameters.getRawParameterValue("mugselector");
+
 	if (*parameters.getRawParameterValue("compmode") == 0.f) {
 		attack = 5.f;
 		release = 50.f;
@@ -63,12 +58,6 @@ CompressorAudioProcessor::CompressorAudioProcessor()
 		ratio = 3.f + (*parameters.getRawParameterValue("compression") * 2.f);
 		
 	}
-	//release = parameters.getRawParameterValue("release");
-	makeUpGain = parameters.getRawParameterValue("mug");
-	compression = parameters.getRawParameterValue("compression");
-	autoMakeUpGain = fabs(threshold * (1 - 1 / ratio));
-	mugSelector = parameters.getRawParameterValue("mugselector");
-	
 }
 
 CompressorAudioProcessor::~CompressorAudioProcessor()
@@ -143,14 +132,11 @@ void CompressorAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBl
 	// Use this method as the place to do any pre-playback
 	// initialisation that you need..
 	thresholdLinear = Decibels::decibelsToGain(threshold);
-	//attack = *parameters.getRawParameterValue("compmode") > 0.f ? 0.1f : 20.f;
-	//autoMakeUpGain = fabs(threshold / ratio);
 
 	cAT = exp(-1 * 1000 / attack / sampleRate);
 	cRT = exp(-1 * 1000 / release / sampleRate);
 
 	state = 0;
-
 }
 
 void CompressorAudioProcessor::releaseResources()
@@ -276,12 +262,12 @@ void CompressorAudioProcessor::setStateInformation(const void* data, int sizeInB
 
 void CompressorAudioProcessor::updateParameters()
 {
-	//threshold = parameters.getRawParameterValue("threshold");
+	
 	threshold = *parameters.getRawParameterValue("compression") * -50.f;
-	//ratio = parameters.getRawParameterValue("ratio");
-	ratio = 1.f + (*parameters.getRawParameterValue("compression") * 5.f);
-	//attack = parameters.getRawParameterValue("attack");
-	//attack = *parameters.getRawParameterValue("compmode") > 0.f ? 0.1f : 20.f;
+	makeUpGain = parameters.getRawParameterValue("mug");
+	autoMakeUpGain = fabs(threshold * (1 - 1 / ratio));
+	mugSelector = parameters.getRawParameterValue("mugselector");
+	
 	if (*parameters.getRawParameterValue("compmode") == 0.f) {
 		attack = 5.f;
 		release = 50.f;
@@ -298,10 +284,6 @@ void CompressorAudioProcessor::updateParameters()
 		ratio = 3.f + (*parameters.getRawParameterValue("compression") * 2.f);
 
 	}
-	//release = parameters.getRawParameterValue("release");
-	makeUpGain = parameters.getRawParameterValue("mug");
-	autoMakeUpGain = fabs(threshold * (1 - 1 / ratio));
-	mugSelector = parameters.getRawParameterValue("mugselector");
 
 	thresholdLinear = Decibels::decibelsToGain(threshold);
 	
