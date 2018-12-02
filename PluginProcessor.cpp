@@ -28,7 +28,7 @@ CompressorAudioProcessor::CompressorAudioProcessor()
 	NormalisableRange<float> makeUpGainRange(0.f, 20.f, .1f);
 	NormalisableRange<float> compressionRange(0.f, 1.0f, 0.01f);
 	NormalisableRange<float> mugSelectorRange(0.f, 1.0f, 1.f);
-	NormalisableRange<float> compTypeRange(0.f, 2.f, 1.f);
+	NormalisableRange<float> compTypeRange(0.f, 4.f, 1.f);
 
 	parameters.createAndAddParameter("mug", "Make Up Gain", " ms", makeUpGainRange, 0.f, nullptr, nullptr);
 	parameters.createAndAddParameter("compression", "Compression", "", compressionRange, 0.f, nullptr, nullptr);
@@ -39,7 +39,7 @@ CompressorAudioProcessor::CompressorAudioProcessor()
 	threshold = *parameters.getRawParameterValue("compression") * -50.f;
 	makeUpGain = parameters.getRawParameterValue("mug");
 	compression = parameters.getRawParameterValue("compression");
-	autoMakeUpGain = fabs(threshold * (1 - 1 / ratio));
+	autoMakeUpGain = fabs(threshold * (1 - 1 / ratio)) / 1.5f;
 	mugSelector = parameters.getRawParameterValue("mugselector");
 
 	if (*parameters.getRawParameterValue("compmode") == 0.f) {
@@ -57,6 +57,18 @@ CompressorAudioProcessor::CompressorAudioProcessor()
 		release = 200.f;
 		ratio = 3.f + (*parameters.getRawParameterValue("compression") * 2.f);
 		
+	}
+	else if (*parameters.getRawParameterValue("compmode") == 3.f) {
+		attack = 15.f;
+		release = 100.f;
+		ratio = 1.5f + (*parameters.getRawParameterValue("compression") * 0.5f);
+
+	}
+	else if (*parameters.getRawParameterValue("compmode") == 4.f) {
+		attack = 0.01f;
+		release = 100.f;
+		ratio = 12.f;
+
 	}
 }
 
@@ -265,7 +277,7 @@ void CompressorAudioProcessor::updateParameters()
 	
 	threshold = *parameters.getRawParameterValue("compression") * -50.f;
 	makeUpGain = parameters.getRawParameterValue("mug");
-	autoMakeUpGain = fabs(threshold * (1 - 1 / ratio));
+	autoMakeUpGain = fabs(threshold * (1 - 1 / ratio)) / 1.5f;
 	mugSelector = parameters.getRawParameterValue("mugselector");
 	
 	if (*parameters.getRawParameterValue("compmode") == 0.f) {
@@ -282,6 +294,18 @@ void CompressorAudioProcessor::updateParameters()
 		attack = 10.f;
 		release = 200.f;
 		ratio = 3.f + (*parameters.getRawParameterValue("compression") * 2.f);
+
+	}
+	else if (*parameters.getRawParameterValue("compmode") == 3.f) {
+		attack = 15.f;
+		release = 100.f;
+		ratio = 1.5f + (*parameters.getRawParameterValue("compression") * 0.5f);
+
+	}
+	else if (*parameters.getRawParameterValue("compmode") == 4.f) {
+		attack = 0.01f;
+		release = 100.f;
+		ratio = 12.f;
 
 	}
 

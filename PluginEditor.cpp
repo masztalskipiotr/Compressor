@@ -22,7 +22,7 @@ CompressorAudioProcessorEditor::CompressorAudioProcessorEditor(CompressorAudioPr
 {
 	// Make sure that before the constructor has finished, you've set the
 	// editor's size to whatever you need it to be.
-	setSize(500, 420);
+	setSize(510, 390);
 
 	makeUpGainSelectorButton.setButtonText("AUTO");
 	makeUpGainSelectorButton.setClickingTogglesState(true);
@@ -40,19 +40,25 @@ CompressorAudioProcessorEditor::CompressorAudioProcessorEditor(CompressorAudioPr
 	compressionModeSelectorBox.addItem("Snare", 3);
 	compressionModeSelectorBox.setJustificationType(Justification::centred);
 	compressionModeSelectorBox.setSelectedId(*processor.getParametersVTS().getRawParameterValue("compmode") + 1);
+	compressionModeSelectorBox.addSeparator();
+
+	compressionModeSelectorBox.addSectionHeading("MASTER");
+	compressionModeSelectorBox.addItem("Glue", 4);
+	compressionModeSelectorBox.addItem("Limiter", 5);
 
 
 
 	makeUpGainSlider.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
-	makeUpGainSlider.setTextBoxStyle(Slider::TextBoxAbove, false, 40, 10);
+	makeUpGainSlider.setTextBoxStyle(Slider::TextBoxAbove, false, 60, 15);
 	makeUpGainSlider.setTextValueSuffix(" dB");
 	makeUpGainSlider.getLookAndFeel().setColour(Slider::textBoxOutlineColourId,
 		getLookAndFeel().findColour(ResizableWindow::backgroundColourId));
+	
 
 	makeUpGainSliderLabel.setText("MAKE UP GAIN", dontSendNotification);
 	makeUpGainSliderLabel.attachToComponent(&makeUpGainSlider, false);
 	makeUpGainSliderLabel.setJustificationType(Justification::centredTop);
-	makeUpGainSliderLabel.setFont(Font("Bahnschrift", "Light", 10));
+	makeUpGainSliderLabel.setFont(Font("Bahnschrift", "Light", 12));
 	if (makeUpGainSelectorButton.getToggleState() == true)
 		makeUpGainSlider.setEnabled(false);
 	else
@@ -61,7 +67,7 @@ CompressorAudioProcessorEditor::CompressorAudioProcessorEditor(CompressorAudioPr
 
 
 	compressionSlider.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
-	compressionSlider.setTextBoxStyle(Slider::TextBoxAbove, false, 65, 20);
+	compressionSlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
 	compressionSlider.setTextValueSuffix("");
 	compressionSlider.getLookAndFeel().setColour(Slider::textBoxOutlineColourId,
 		getLookAndFeel().findColour(ResizableWindow::backgroundColourId));
@@ -105,9 +111,9 @@ void CompressorAudioProcessorEditor::paint(Graphics& g)
 
 void CompressorAudioProcessorEditor::resized()
 {
-	makeUpGainSlider.setBounds(410, 190, 70, 90);
+	makeUpGainSlider.setBounds(425, 230, 70, 70);
 	compressionSlider.setBounds(50, 80, 380, 300);
-	makeUpGainSelectorButton.setBounds(420, 315, 50, 30);
+	makeUpGainSelectorButton.setBounds(435, 315, 50, 30);
 	compressionModeSelectorBox.setBounds(20, 20, 90, 30);
 
 }
