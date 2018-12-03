@@ -39,7 +39,7 @@ CompressorAudioProcessor::CompressorAudioProcessor()
 	threshold = *parameters.getRawParameterValue("compression") * -50.f;
 	makeUpGain = parameters.getRawParameterValue("mug");
 	compression = parameters.getRawParameterValue("compression");
-	autoMakeUpGain = fabs(threshold * (1 - 1 / ratio)) / 1.5f;
+	autoMakeUpGain = fabs(threshold * (1 - 1 / ratio));
 	mugSelector = parameters.getRawParameterValue("mugselector");
 
 	if (*parameters.getRawParameterValue("compmode") == 0.f) {
@@ -277,7 +277,7 @@ void CompressorAudioProcessor::updateParameters()
 	
 	threshold = *parameters.getRawParameterValue("compression") * -50.f;
 	makeUpGain = parameters.getRawParameterValue("mug");
-	autoMakeUpGain = fabs(threshold * (1 - 1 / ratio)) / 1.5f;
+	autoMakeUpGain = fabs(threshold * (1 - 1 / ratio));
 	mugSelector = parameters.getRawParameterValue("mugselector");
 	
 	if (*parameters.getRawParameterValue("compmode") == 0.f) {

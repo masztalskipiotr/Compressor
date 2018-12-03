@@ -22,7 +22,9 @@ CompressorAudioProcessorEditor::CompressorAudioProcessorEditor(CompressorAudioPr
 {
 	// Make sure that before the constructor has finished, you've set the
 	// editor's size to whatever you need it to be.
-	setSize(510, 390);
+	setSize(570, 370);
+
+	potOfGoldImage = ImageCache::getFromMemory(BinaryData::rsz_80potofgold_png, BinaryData::rsz_80potofgold_pngSize);
 
 	makeUpGainSelectorButton.setButtonText("AUTO");
 	makeUpGainSelectorButton.setClickingTogglesState(true);
@@ -71,6 +73,7 @@ CompressorAudioProcessorEditor::CompressorAudioProcessorEditor(CompressorAudioPr
 	compressionSlider.setTextValueSuffix("");
 	compressionSlider.getLookAndFeel().setColour(Slider::textBoxOutlineColourId,
 		getLookAndFeel().findColour(ResizableWindow::backgroundColourId));
+	compressionSlider.setRotaryParameters(-2.f, 1.7f, false);
 	
 
 	compressionSliderLabel.setText("COMPRESSION", dontSendNotification);
@@ -101,6 +104,7 @@ void CompressorAudioProcessorEditor::paint(Graphics& g)
 {
 	// (Our component is opaque, so we must completely fill the background with a solid colour)
 	g.fillAll(getLookAndFeel().findColour(ResizableWindow::backgroundColourId));
+	g.drawImageAt(potOfGoldImage, 355, 240);
 }
 
 //void CompressorAudioProcessorEditor::setSliderInvisible() {
@@ -111,9 +115,9 @@ void CompressorAudioProcessorEditor::paint(Graphics& g)
 
 void CompressorAudioProcessorEditor::resized()
 {
-	makeUpGainSlider.setBounds(425, 230, 70, 70);
-	compressionSlider.setBounds(50, 80, 380, 300);
-	makeUpGainSelectorButton.setBounds(435, 315, 50, 30);
+	makeUpGainSlider.setBounds(485, 230, 70, 70);
+	compressionSlider.setBounds(90, 80, 380, 300);
+	makeUpGainSelectorButton.setBounds(495, 315, 50, 30);
 	compressionModeSelectorBox.setBounds(20, 20, 90, 30);
 
 }

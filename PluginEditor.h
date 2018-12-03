@@ -34,6 +34,8 @@ private:
 	// access the processor object that created it.
 	CompressorAudioProcessor& processor;
 
+	Image potOfGoldImage;
+
 	Slider makeUpGainSlider;
 	Slider compressionSlider;
 
