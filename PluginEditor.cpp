@@ -33,22 +33,22 @@ CompressorAudioProcessorEditor::CompressorAudioProcessorEditor(CompressorAudioPr
 	makeUpGainSelectorButton.addListener(this);
 
 
-
-	compressionModeSelectorBox.addItem("Speech", 1);
-	compressionModeSelectorBox.addItem("Guitar", 2);
+	compressionModeSelectorBox.addSectionHeading("VOCALS");
+	compressionModeSelectorBox.addItem("Natural", 1);
+	compressionModeSelectorBox.addItem("Aggresive", 2);
 	compressionModeSelectorBox.addSeparator();
 
 	compressionModeSelectorBox.addSectionHeading("DRUMS");
-	compressionModeSelectorBox.addItem("Snare", 3);
+	compressionModeSelectorBox.addItem("Punch", 3);
+	compressionModeSelectorBox.addItem("Meat", 4);
 	compressionModeSelectorBox.setJustificationType(Justification::centred);
-	compressionModeSelectorBox.setSelectedId(*processor.getParametersVTS().getRawParameterValue("compmode") + 1);
 	compressionModeSelectorBox.addSeparator();
 
 	compressionModeSelectorBox.addSectionHeading("MASTER");
-	compressionModeSelectorBox.addItem("Glue", 4);
-	compressionModeSelectorBox.addItem("Limiter", 5);
+	compressionModeSelectorBox.addItem("Glue", 5);
+	compressionModeSelectorBox.addItem("Limiter", 6);
 
-
+	compressionModeSelectorBox.setSelectedId(*processor.getParametersVTS().getRawParameterValue("compmode") + 1);
 
 	makeUpGainSlider.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
 	makeUpGainSlider.setTextBoxStyle(Slider::TextBoxAbove, false, 60, 15);
@@ -118,7 +118,7 @@ void CompressorAudioProcessorEditor::resized()
 	makeUpGainSlider.setBounds(485, 230, 70, 70);
 	compressionSlider.setBounds(90, 80, 380, 300);
 	makeUpGainSelectorButton.setBounds(495, 315, 50, 30);
-	compressionModeSelectorBox.setBounds(20, 20, 90, 30);
+	compressionModeSelectorBox.setBounds(20, 20, 100, 30);
 
 }
 
