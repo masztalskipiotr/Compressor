@@ -1,3 +1,3 @@
 # Pot Of Gold Compressor
 
-A dynamic range audio compressor implemented using the JUCE framework.
+A dynamic range compressor implemented using the JUCE framework.
